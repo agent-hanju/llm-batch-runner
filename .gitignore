@@ -1,0 +1,22 @@
+__pycache__/
+*.py[cod]
+*.egg-info/
+dist/
+build/
+.venv/
+venv/
+.env
+
+# spool files
+*.jsonl
+
+# Gemini cache store
+.gemini_cache_store.json
+
+# IDE
+.vscode/
+.idea/
+pyrightconfig.json
+
+# Claude local
+.claude/
