@@ -8,6 +8,7 @@ from pathlib import Path
 from typing import Any, Iterator
 
 from models import Block, DocumentSpec, LLMRequest, LLMResponse
+from runner_base import BaseRunner
 
 
 def _req_to_dict(req: LLMRequest) -> dict[str, Any]:
@@ -61,7 +62,7 @@ class BatchCollector:
 
     def __init__(
         self,
-        runner: Any,
+        runner: BaseRunner,
         spool_path: str | Path | None = None,
         max_size: int | None = None,
     ) -> None:

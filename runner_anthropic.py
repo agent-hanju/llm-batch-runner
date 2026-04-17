@@ -5,6 +5,7 @@ import time
 from typing import Any
 
 from models import Block, DocumentSpec, LLMRequest, LLMResponse
+from runner_base import BaseRunner
 
 logger = logging.getLogger(__name__)
 
@@ -40,7 +41,7 @@ def _to_anthropic_blocks(blocks: list[Block]) -> list[Any] | str:
     return result
 
 
-class AnthropicBatchRunner:
+class AnthropicBatchRunner(BaseRunner):
     """
     Anthropic Message Batches API with prompt caching.
 

@@ -15,6 +15,7 @@ from pathlib import Path
 from typing import Any
 
 from models import Block, LLMRequest, LLMResponse
+from runner_base import BaseRunner
 from utils import RateLimiter, normalize_base_url
 
 logger = logging.getLogger(__name__)
@@ -210,7 +211,7 @@ class GeminiCacheClient:
         self._store_path.write_text(json.dumps(pruned, indent=2), encoding="utf-8")
 
 
-class ChatCompletionsRunner:
+class ChatCompletionsRunner(BaseRunner):
     """
     OpenAI-compatible Chat Completions endpoint.
 
@@ -272,8 +273,8 @@ class ChatCompletionsRunner:
             system_instruction=system_text,
         )
 
-    def _call_one(self, req: LLMRequest) -> LLMResponse:
-        logger.debug("_call_one start id=%s", req.custom_id)
+    def run(self, req: LLMRequest) -> LLMResponse:
+        logger.debug("run start id=%s", req.custom_id)
         if self._limiter:
             self._limiter.acquire()
         messages: list[dict[str, Any]] = []
@@ -346,14 +347,10 @@ class ChatCompletionsRunner:
         # unreachable
         return LLMResponse(id=req.output_id, content=None, error="unexpected retry exhaustion", source_file=req.source_file)
 
-    def run(self, req: LLMRequest) -> LLMResponse:
-        """Send a single request and return its response."""
-        return self._call_one(req)
-
     def stream(self, requests: list[LLMRequest]):
         """Yield each LLMResponse as it completes (completion order, not input order)."""
         with ThreadPoolExecutor(max_workers=self.max_concurrent) as pool:
-            futures = {pool.submit(self._call_one, req): req for req in requests}
+            futures = {pool.submit(self.run, req): req for req in requests}
             for future in as_completed(futures):
                 try:
                     yield future.result()
