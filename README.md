@@ -1,13 +1,45 @@
-# llm_batch_runner
+# llm-batch-runner
+
+![Python](https://img.shields.io/badge/python-3.7%2B-blue)
+![License](https://img.shields.io/badge/license-MIT-green)
+![Dependencies](https://img.shields.io/badge/dependencies-stdlib%20only-brightgreen)
 
 Batch LLM requests from a JSONL input file to a JSONL output file.
 Supports OpenAI-compatible endpoints (local/cloud), Anthropic Batch API, and local AI CLIs.
 Uses only Python stdlib — no pip installs required except for the Anthropic backend.
 
+## Table of Contents
+
+- [Requirements](#requirements)
+- [Quick Start](#quick-start)
+- [Backends](#backends)
+- [Usage](#usage)
+- [Config](#config)
+- [Template](#template)
+- [Input JSONL](#input-jsonl)
+- [Output JSONL](#output-jsonl)
+- [Logging](#logging)
+- [Programmatic use](#programmatic-use)
+- [Contributing](#contributing)
+
 ## Requirements
 
 - Python 3.7+
 - `anthropic` SDK only if using `backend: "anthropic"` (`pip install anthropic`)
+
+## Quick Start
+
+```bash
+git clone https://github.com/doyeonk429/llm-batch-runner.git
+cd llm-batch-runner
+pip install anthropic        # only if using the Anthropic backend
+
+python __main__.py \
+  --config config.json \
+  --template template.json \
+  --input input.jsonl \
+  --output output.jsonl
+```
 
 ## Backends
 
@@ -301,3 +333,7 @@ for resp in collector.flush():
 Requests are serialized to a temp JSONL spool file on `add()`, so memory usage stays flat regardless of batch size. `flush()` reads the spool, calls `runner.stream()`, yields each response, then clears the spool.
 
 `max_size` triggers an automatic flush (and response yield) when the accumulated count reaches the limit. Use `max_size=10_000` with the Anthropic backend to stay within its per-batch cap. Omit it when there is no limit.
+
+## Contributing
+
+Bug reports and pull requests are welcome. Please open an issue first for major changes.

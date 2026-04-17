@@ -1,13 +1,45 @@
-# llm_batch_runner
+# llm-batch-runner
+
+![Python](https://img.shields.io/badge/python-3.7%2B-blue)
+![License](https://img.shields.io/badge/license-MIT-green)
+![Dependencies](https://img.shields.io/badge/dependencies-stdlib%20only-brightgreen)
 
 JSONL 입력 파일로부터 LLM 요청을 일괄 처리해 JSONL 출력 파일로 저장합니다.
 OpenAI 호환 엔드포인트(로컬/클라우드), Anthropic Batch API, 로컬 AI CLI를 지원합니다.
 Anthropic 백엔드를 제외하면 Python 표준 라이브러리만 사용합니다.
 
+## 목차
+
+- [요구사항](#요구사항)
+- [빠른 시작](#빠른-시작)
+- [백엔드](#백엔드)
+- [사용법](#사용법)
+- [설정](#설정-configjson)
+- [템플릿](#템플릿-templatejson)
+- [입력 JSONL](#입력-jsonl)
+- [출력 JSONL](#출력-jsonl)
+- [로그](#로그)
+- [프로그래밍 방식 사용](#프로그래밍-방식-사용)
+- [기여](#기여)
+
 ## 요구사항
 
 - Python 3.7+
 - `backend: "anthropic"` 사용 시에만 `anthropic` SDK 필요 (`pip install anthropic`)
+
+## 빠른 시작
+
+```bash
+git clone https://github.com/doyeonk429/llm-batch-runner.git
+cd llm-batch-runner
+pip install anthropic        # anthropic 백엔드 사용 시만
+
+python __main__.py \
+  --config config.json \
+  --template template.json \
+  --input input.jsonl \
+  --output output.jsonl
+```
 
 ## 백엔드
 
@@ -302,3 +334,7 @@ for resp in collector.flush():
 `flush()`는 스풀을 읽어 `runner.stream()`을 호출하고, 응답을 yield한 뒤 스풀을 초기화합니다.
 
 `max_size`는 누적 건수가 한도에 도달하면 자동으로 flush하고 응답을 yield합니다. Anthropic 백엔드의 배치당 10,000건 제한에 맞추려면 `max_size=10_000`을 사용하세요. 제한이 없는 경우 생략합니다.
+
+## 기여
+
+버그 리포트와 Pull Request를 환영합니다. 주요 변경사항은 먼저 이슈를 열어주세요.
