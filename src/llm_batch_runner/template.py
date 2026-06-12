@@ -4,7 +4,7 @@ import logging
 import re
 from typing import Any
 
-from models import Block, DocumentSpec, LLMRequest
+from .models import Block, DocumentSpec, LLMRequest
 
 logger = logging.getLogger(__name__)
 

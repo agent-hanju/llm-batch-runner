@@ -3,7 +3,7 @@ from __future__ import annotations
 from abc import ABC, abstractmethod
 from typing import Iterator
 
-from models import LLMRequest, LLMResponse
+from .models import LLMRequest, LLMResponse
 
 
 class BaseRunner(ABC):

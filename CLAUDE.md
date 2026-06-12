@@ -3,10 +3,12 @@
 ## Quick start
 
 ```bash
-pip install anthropic        # anthropic 백엔드 사용 시
-python __main__.py --config config.json --template template.json --input input.jsonl --output out.jsonl
-python __main__.py --input inputs/   # --input에 디렉터리 지정 가능 (.json/.jsonl 파일 전체 로드)
-python __main__.py ... --force       # 기존 output 무시하고 전체 재실행
+pip install -e .             # 기본 설치
+pip install -e ".[anthropic]"  # anthropic 백엔드 포함 설치
+llm-batch-runner --config config.json --template template.json --input input.jsonl --output out.jsonl
+llm-batch-runner --input inputs/   # --input에 디렉터리 지정 가능 (.json/.jsonl 파일 전체 로드)
+llm-batch-runner ... --force       # 기존 output 무시하고 전체 재실행
+python -m llm_batch_runner ...     # 위와 동일 (모듈 직접 실행)
 ```
 
 ## Backends

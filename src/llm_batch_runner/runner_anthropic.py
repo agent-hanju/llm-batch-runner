@@ -4,8 +4,8 @@ import logging
 import time
 from typing import Any
 
-from models import Block, DocumentSpec, LLMRequest, LLMResponse
-from runner_base import BaseRunner
+from .models import Block, DocumentSpec, LLMRequest, LLMResponse
+from .runner_base import BaseRunner
 
 logger = logging.getLogger(__name__)
 
@@ -213,7 +213,6 @@ class AnthropicBatchRunner(BaseRunner):
         for result in self.client.messages.batches.results(batch.id):
             req = id_to_req[result.custom_id]
             yield self._parse_result(result, req.output_id, req.source_file)
-
 
     def _parse_result(self, result: Any, output_id: str | None = None, source_file: str | None = None) -> LLMResponse:
         rid = output_id or result.custom_id

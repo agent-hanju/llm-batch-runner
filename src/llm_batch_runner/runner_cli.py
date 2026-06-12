@@ -8,9 +8,9 @@ import time
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from typing import Any, Literal
 
-from models import LLMRequest, LLMResponse
-from runner_base import BaseRunner
-from utils import RateLimiter
+from .models import LLMRequest, LLMResponse
+from .runner_base import BaseRunner
+from .utils import RateLimiter
 
 logger = logging.getLogger(__name__)
 
@@ -135,4 +135,3 @@ class CliRunner(BaseRunner):
                 except Exception as exc:
                     req = futures[future]
                     yield LLMResponse(id=req.output_id, content=None, error=str(exc), source_file=req.source_file)
-

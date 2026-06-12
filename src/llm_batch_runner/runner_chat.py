@@ -14,9 +14,9 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 from pathlib import Path
 from typing import Any
 
-from models import Block, LLMRequest, LLMResponse
-from runner_base import BaseRunner
-from utils import RateLimiter, normalize_base_url
+from .models import Block, LLMRequest, LLMResponse
+from .runner_base import BaseRunner
+from .utils import RateLimiter, normalize_base_url
 
 logger = logging.getLogger(__name__)
 
@@ -357,4 +357,3 @@ class ChatCompletionsRunner(BaseRunner):
                 except Exception as exc:
                     req = futures[future]
                     yield LLMResponse(id=req.output_id, content=None, error=str(exc), source_file=req.source_file)
-

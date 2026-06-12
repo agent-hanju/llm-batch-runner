@@ -1,4 +1,4 @@
-"""CLI entry point: python -m llm_batch_runner (or python __main__.py)"""
+"""CLI entry point: python -m llm_batch_runner"""
 from __future__ import annotations
 
 import argparse
@@ -9,11 +9,11 @@ from dataclasses import asdict
 from pathlib import Path
 from typing import Any
 
-from models import LLMRequest, LLMResponse  # noqa: F401
-from template import build_requests
-from runner_chat import ChatCompletionsRunner
-from runner_anthropic import AnthropicBatchRunner
-from runner_cli import CliRunner
+from .models import LLMRequest, LLMResponse  # noqa: F401
+from .template import build_requests
+from .runner_chat import ChatCompletionsRunner
+from .runner_anthropic import AnthropicBatchRunner
+from .runner_cli import CliRunner
 
 _BACKEND_KEYS = ("chat", "anthropic", "cli")
 
@@ -228,7 +228,7 @@ def _build_runner(cfg: dict[str, Any]) -> ChatCompletionsRunner | AnthropicBatch
 
 def _main(argv: list[str] | None = None) -> None:
     parser = argparse.ArgumentParser(
-        prog="llm_batch_runner",
+        prog="llm-batch-runner",
         description="Run batched LLM requests from JSONL input to JSONL output.",
         epilog=_CONFIG_EXAMPLE,
         formatter_class=argparse.RawDescriptionHelpFormatter,
